@@ -1,0 +1,12 @@
+# Node modules (dependencias de npm)
+node_modules/
+
+# Reportes de Mochawesome (JSON y HTML)
+cypress/reports/mochawesome-report/
+
+# Capturas y videos de Cypress
+cypress/screenshots/
+cypress/videos/
+
+# Ignorar los archivos de lock (opcional si no quieres versionar)
+package-lock.json
