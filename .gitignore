@@ -1,12 +1,15 @@
-# Node modules (dependencias de npm)
-node_modules/
+# MacOS metadata
+.DS_Store
 
-# Reportes de Mochawesome (JSON y HTML)
-cypress/reports/mochawesome-report/
+# Dependencias de Node
+/node_modules/
 
-# Capturas y videos de Cypress
-cypress/screenshots/
-cypress/videos/
+# Reportes de Mochawesome
+/cypress/reports/mochawesome-report/
 
-# Ignorar los archivos de lock (opcional si no quieres versionar)
-package-lock.json
+# Imágenes y videos que Cypress genera automáticamente
+/cypress/screenshots/
+/cypress/videos/
+
+# (Opcional) Ignorar package-lock si no deseas versionarlo
+/package-lock.json
