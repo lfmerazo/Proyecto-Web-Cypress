@@ -1,39 +1,41 @@
-const { defineConfig } = require("cypress");
+const { defineConfig } = require('cypress');
+const webpackPreprocessor = require('@cypress/webpack-preprocessor');
+const webpackOptions = require('./cypress/webpack.config.js');
 
 module.exports = defineConfig({
+  retries:1,
   e2e: {
-    // 1) Definimos la URL base: 
-    //    cuando hagas cy.visit('/'), realmente visitará https://demoblaze.com/
+    // URL base, para cy.visit('/')
     baseUrl: 'https://demoblaze.com/',
 
-    // 2) Tamaño por defecto (Desktop):
+    // Patrón para encontrar tus specs (*.cy.js)
+    specPattern: 'cypress/e2e/**/*.cy.js',
+
+    // Archivo de soporte
+    supportFile: 'cypress/support/e2e.js',
+
+    // Tamaño desktop
     viewportWidth: 1280,
     viewportHeight: 720,
 
-    // 3) Desactivar grabación de videos:
-    video: false, 
-
-    // 4) Timeout por defecto para comandos:
+    // Timeout por defecto para comandos
     defaultCommandTimeout: 8000,
 
-    // 5) Patrón para encontrar todos los specs (*.cy.js):
-    specPattern: 'cypress/e2e/**/*.cy.js',
-
-    // 6) Reporter: Mochawesome
+    // Para reportes en Mochawesome
     reporter: 'mochawesome',
     reporterOptions: {
-      reportDir: 'cypress/reports/mochawesome-report', // carpeta de salidas JSON/HTML
-      overwrite: false,  // no sobreescribir JSON anteriores
-      html: false,       // inicialmente solo generamos JSON
+      reportDir: 'cypress/reports/mochawesome-report',
+      overwrite: false,
+      html: false,
       json: true,
-      timestamp: 'mmddyyyy_HHMMss'
+      timestamp: 'mmddyyyy_HHmmss'
     },
 
-    // 7) Archivo de soporte global:
-    supportFile: 'cypress/support/e2e.js',
-    
+    // Hook para conectar CSA a Webpack
     setupNodeEvents(on, config) {
-      // implement node event listeners here
-    },
-  },
+      // Le indicamos a Cypress que use el preprocesador de Webpack
+      on('file:preprocessor', webpackPreprocessor({ webpackOptions }));
+      return config;
+    }
+  }
 });

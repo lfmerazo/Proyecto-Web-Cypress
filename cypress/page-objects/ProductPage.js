@@ -1,4 +1,6 @@
-export class ProductPage {
+import BasePage from './base/BasePage.js';
+
+export default class ProductPage extends BasePage{
   elements = {
     // Botón “Add to cart”
     addToCartButton: () => cy.contains('Add to cart'),

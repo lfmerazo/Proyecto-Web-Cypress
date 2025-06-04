@@ -1,37 +1,66 @@
-export class HomePage {
-  elements = {
-    // Lista de categorías (por ejemplo: Phones, Laptops, Monitors)
-    categoryList: () => cy.get('#itemc'),
+import BasePage from './base/BasePage.js';
+
+export default class HomePage extends BasePage{
+  elements = {    
+    userField: () => cy.get('#loginusername'),
+    passField: () => cy.get('#loginpassword'),
+    userNameLabel: () => cy.get('#nameofuser'),         // elemento que muestra “Welcome <user>”
+    confirmLogin: () => cy.get('button').contains('Log in'),
+    loginButton: () => cy.get('#login2'),
+    logoutButton: () => cy.get('#logout2'),
+
     // Links de los títulos de cada tarjeta de producto
     productLinks: () => cy.get('.card-title a'),
     // Botón para ir al carrito
     cartButton: () => cy.get('#cartur'),
     // Botón hamburguesa que en móvil despliega el menú
-    burgerButton: () => cy.get('button.navbar-toggler')
+    burgerButton: () => cy.get('button.navbar-toggler')   
   };
+  
 
   // Navegar a la home de demoblaze (https://demoblaze.com/)
   visitHome() {
-    cy.visit('/');
+    this.visit('/');
+  }
+
+  openLoginModal() {
+    this.elements.loginButton().click();
+  }
+
+  fillLoginForm(username, password) {
+    this.elements.userField().clear().type(username).should('have.value', username);
+    this.elements.passField().clear().type(password).should('have.value', password);
+  }
+
+  submitLogin() {
+    this.elements.confirmLogin().click();
+  }
+
+  verifyLoginSuccess(username){
+    this.waitForVisible(this.elements.userNameLabel());
+    this.elements.userNameLabel().should('contain',`Welcome ${username}`);
+  }
+
+  logout() {
+    this.elements.logoutButton().click();
+  }
+
+  verifyLogoutSuccess(username){
+    // Verificar que ya aparece botón “Log in” otra vez:
+    this.waitForVisible(this.elements.loginButton());
+    this.elements.loginButton().should('be.visible');
   }
 
   // Hacer click en una categoría por nombre (“Laptops”, “Monitors”, etc.)
   clickCategory(categoryName) {
-    // 1) Si el menú hamburguesa está visible (es Mobile View), lo abrimos:
-    this.elements.burgerButton().then($btn => {
-      if ($btn.is(':visible')) {
-        $btn.click();
-      }
-    });
+    //Esperar a que haya por lo menos 1 <a id="itemc"> visible
+    cy.get('#itemc')
+      .should('have.length.at.least', 1)
+      .and('be.visible');
 
-    // 2) Esperamos a que todos los <a id="itemc"> sean visibles en pantalla
-    this.elements.categoryList()
-      .should('be.visible')      // al menos uno
-      .and('have.length.at.least', 1);
-
-    // 3) Ahora sí, buscamos *entre todos* los "#itemc" el que contenga categoryName
     cy.contains('#itemc', categoryName)
-      .scrollIntoView()          // (opcional) para asegurarnos de estar en pantalla
+      .scrollIntoView()
+      .should('be.visible')
       .click();
   }
 

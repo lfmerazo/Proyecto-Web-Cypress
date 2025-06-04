@@ -1,4 +1,6 @@
-export class CartPage {
+import BasePage from './base/BasePage.js';
+
+export default class CartPage extends BasePage{
   elements = {
     // Filas de la tabla del carrito (cada producto es un <tr>)
     cartTableRows: () => cy.get('#tbodyid > tr'),
@@ -21,6 +23,7 @@ export class CartPage {
   // Eliminar un producto del carrito por su nombre
   deleteProduct(productName) {
     this.elements.deleteProductButton(productName).click();
+    cy.get('#tbodyid').should('not.contain', 'Sony vaio i5');
   }
 
   // Hacer click en Place Order

@@ -16,11 +16,16 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
   "devDependencies": {
+    "@babel/core": "^7.27.4",
+    "@babel/preset-env": "^7.27.2",
+    "@cypress/webpack-preprocessor": "^6.0.4",
+    "babel-loader": "^10.0.0",
     "cypress": "^14.4.0",
     "mochawesome": "^7.1.3",
     "mochawesome-merge": "^5.0.0",
-    "mochawesome-report-generator": "^6.2.0"
+    "mochawesome-report-generator": "^6.2.0",
+    "webpack": "^5.99.9",
+    "webpack-cli": "^6.0.1"
   }
 }
