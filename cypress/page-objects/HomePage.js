@@ -1,12 +1,18 @@
 import BasePage from './base/BasePage.js';
 
 export default class HomePage extends BasePage{
-  elements = {    
+  elements = {   
+    //Campo de texto de username
     userField: () => cy.get('#loginusername'),
+    //Campo de texto de password
     passField: () => cy.get('#loginpassword'),
-    userNameLabel: () => cy.get('#nameofuser'),         // elemento que muestra “Welcome <user>”
-    confirmLogin: () => cy.get('button').contains('Log in'),
+    // Label para validar login exitoso, muestra el texto “Welcome <user>”
+    userNameLabel: () => cy.get('#nameofuser'),
+    // Botón para realizar el login
+    confirmLoginButton: () => cy.get('button').contains('Log in'),
+    // Botón Log in en el menú, abrir formulario de login
     loginButton: () => cy.get('#login2'),
+    // Botón Log out en el menú, cerrar sesiòn
     logoutButton: () => cy.get('#logout2'),
 
     // Links de los títulos de cada tarjeta de producto
@@ -33,7 +39,7 @@ export default class HomePage extends BasePage{
   }
 
   submitLogin() {
-    this.elements.confirmLogin().click();
+    this.elements.confirmLoginButton().click();
   }
 
   verifyLoginSuccess(username){
